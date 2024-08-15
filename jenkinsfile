@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'my-react-app'  // Docker image name
+        IMAGE_NAME = 'kavi740/dev'  // Docker image name
         TAG = 'latest'               // Docker image tag
         DOCKERHUB_CREDENTIALS = credentials('DockerHub')  // DockerHub credentials stored in Jenkins
-        DEPLOY_SERVER = 'username@your-server-ip'  // Replace with your server's SSH credentials
     }
 
     stages {
@@ -29,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Log in to DockerHub and push the image
-                    docker.withRegistry('https://index.docker.io/v1/', 'DockerHubs') {
+                     docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
                         sh 'docker push kavi740/dev:latest'
                     }
                 }
@@ -40,7 +39,7 @@ pipeline {
             steps {
                 script {
                     // SSH into the server and deploy the Docker container
-                    sshagent (credentials: ['Jenkins-PublicKey']) {
+                    sshagent (credentials: ['5ffcb123-2a6a-4598-ac6e-6b5fe2e0e062']) {
                         sh '''
                         ssh -o StrictHostKeyChecking=no $DEPLOY_SERVER << EOF
                         docker pull kavi740/dev:latest
