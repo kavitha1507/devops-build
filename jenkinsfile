@@ -1,36 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'kavi740/dev'  // Docker image name
-        TAG = 'latest'               // Docker image tag
-        DOCKERHUB_CREDENTIALS = credentials('DockerHub')  // DockerHub credentials stored in Jenkins
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout code from the specified branch (can be 'dev' or 'master')
-                git branch: 'dev', url: 'https://github.com/kavitha1507/devops-build.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     // Build the Docker image from the Dockerfile
-                    sh 'docker build -t kavi740/dev .'
-                }
-            }
-        }
-
-        stage('Push Docker Image to DockerHub') {
-            steps {
-                script {
-                    // Log in to DockerHub and push the image
-                     docker.withRegistry('https://index.docker.io/v1/', 'DockerHub') {
-                        sh 'docker push kavi740/dev:latest'
-                    }
+                    sh 'docker build -t kavi740/dev:latest .'
                 }
             }
         }
@@ -38,16 +14,8 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 script {
-                    // SSH into the server and deploy the Docker container
-                    sshagent (credentials: ['5ffcb123-2a6a-4598-ac6e-6b5fe2e0e062']) {
-                        sh '''
-                        ssh -o StrictHostKeyChecking=no $DEPLOY_SERVER << EOF
-                        docker pull kavi740/dev:latest
-                        docker stop react-app-container || true
-                        docker rm react-app-container || true
-                        docker run -d --name react-app-container -p 80:80 kavi740/dev:latest
-                        EOF
-                        '''
+                    sh "docker rm -f kavi740/dev || true"
+                    sh "docker run -p 80:80 kavi740/dev:latest"
                     }
                 }
             }
