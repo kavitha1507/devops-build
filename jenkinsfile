@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'my-react-app'  // Docker image name
         TAG = 'latest'               // Docker image tag
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')  // DockerHub credentials stored in Jenkins
+        DOCKERHUB_CREDENTIALS = credentials('DockerHub')  // DockerHub credentials stored in Jenkins
         DEPLOY_SERVER = 'username@your-server-ip'  // Replace with your server's SSH credentials
     }
 
@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from the specified branch (can be 'dev' or 'master')
-                git branch: 'dev', url: 'https://github.com/your-username/your-repo.git'
+                git branch: 'dev', url: 'https://github.com/kavitha1507/devops-build.git'
             }
         }
 
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image from the Dockerfile
-                    sh 'docker build -t $IMAGE_NAME:$TAG .'
+                    sh 'docker build -t kavi740/dev .'
                 }
             }
         }
@@ -29,8 +29,8 @@ pipeline {
             steps {
                 script {
                     // Log in to DockerHub and push the image
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
-                        sh 'docker push $IMAGE_NAME:$TAG'
+                    docker.withRegistry('https://index.docker.io/v1/', 'DockerHubs') {
+                        sh 'docker push kavi740/dev:latest'
                     }
                 }
             }
@@ -40,13 +40,13 @@ pipeline {
             steps {
                 script {
                     // SSH into the server and deploy the Docker container
-                    sshagent (credentials: ['server-ssh-credentials']) {
+                    sshagent (credentials: ['Jenkins-PublicKey']) {
                         sh '''
                         ssh -o StrictHostKeyChecking=no $DEPLOY_SERVER << EOF
-                        docker pull $IMAGE_NAME:$TAG
+                        docker pull kavi740/dev:latest
                         docker stop react-app-container || true
                         docker rm react-app-container || true
-                        docker run -d --name react-app-container -p 80:80 $IMAGE_NAME:$TAG
+                        docker run -d --name react-app-container -p 80:80 kavi740/dev:latest
                         EOF
                         '''
                     }
