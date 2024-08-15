@@ -2,11 +2,19 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from the specified branch ('dev' branch)
+                git branch: 'dev', url: 'https://github.com/kavitha1507/devops-build.git'
+            }
+        }
+
+    stages {
         stage('Build Docker Image') {
             steps {
                 script {
                     // Build the Docker image from the Dockerfile
-                    sh 'docker build -t kavi740/dev:latest .'
+                    bat 'docker build -t kavi740/dev:latest .'
                 }
             }
         }
@@ -14,8 +22,8 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 script {
-                    sh "docker rm -f kavi740/dev || true"
-                    sh "docker run -p 80:80 kavi740/dev:latest"
+                    bat "docker rm -f kavi740/dev || true"
+                    bat "docker run -p 80:80 kavi740/dev:latest"
                     }
                 }
             }
@@ -38,3 +46,4 @@ pipeline {
             echo 'Deployment failed.'
         }
     }
+}
