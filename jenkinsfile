@@ -17,15 +17,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy to Server') {
-            steps {
-                script {
-                    bat "docker rm -f kavi740/dev || true"
-                    bat "docker run -p 80:80 kavi740/dev:latest"
-                    }
-                }
-            }
         stage('Deploy to Server') {
             steps {
                 script {
