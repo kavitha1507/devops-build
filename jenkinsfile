@@ -27,7 +27,26 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to Server') {
+            steps {
+                script {
+                    // SSH into the server and deploy the Docker container
+                    sshagent (credentials: ['5ffcb123-2a6a-4598-ac6e-6b5fe2e0e062']) {
+                        bat '''
+                        ssh -o StrictHostKeyChecking=no $DEPLOY_SERVER << EOF
+                        docker pull kavi740/dev:latest
+                        docker stop react-app-container || true
+                        docker rm react-app-container || true
+                        docker run -d --name react-app-container -p 80:80 kavi740/dev:latest
+                        EOF
+                        '''
+                    }
+                }
+            }
+        }
     }
+
+
 
     post {
         always {
