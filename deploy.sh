@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Start the services using Docker Compose
+# Deploy the Docker container using docker-compose
+echo "Deploying the React app..."
 docker-compose up -d
-
-# Print a message
-echo "Deployment complete! Your React app is running."
+echo "Deployment completed."

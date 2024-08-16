@@ -1,47 +1,38 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_CREDENTIALS_ID = 'DockerHub'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from the specified branch ('dev' branch)
+                // Checkout code from the specified branch (can be 'dev' or 'master')
                 git branch: 'dev', url: 'https://github.com/kavitha1507/devops-build.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                script {
-                    // Build the Docker image from the Dockerfile
-                    bat 'docker build -t kavi740/dev:latest .'
-                }
+                echo 'Building the Docker image...'
+                sh './build.sh'
             }
         }
 
-        stage('Deploy to Server') {
+        stage('Deploy') {
             steps {
-                script {
-                    bat "docker rm -f kavi740/dev || true"
-                    bat "docker run -p 80:80 kavi740/dev:latest"
-                    }
-                }
+                echo 'Deploying the React app...'
+                sh './deploy.sh'
             }
         }
     }
 
     post {
-        always {
-            // Clean the workspace after the job completes
-            cleanWs()
-        }
-
         success {
-            // Notify upon successful build and deployment
-            echo 'Deployment successful!'
+            echo 'Application deployed successfully!'
         }
-
         failure {
-            // Notify if the pipeline fails
             echo 'Deployment failed.'
         }
     }
+}
