@@ -15,14 +15,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the Docker image...'
-                sh './build.sh'
+                bat './build.sh'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying the React app...'
-                sh './deploy.sh'
+                bat './deploy.sh'
             }
         }
     }
