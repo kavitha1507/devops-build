@@ -15,22 +15,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the Docker image...'
-                if (isUnix()) {
-                   sh './build.sh'
-                    } else {
                         bat 'build.bat'
-                        }
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying the React app...'
-                if (isUnix()) {
-                   sh './deploy.sh'
-                } else {
                    bat 'deploy.bat'
-                    }
             }
         }
     }
