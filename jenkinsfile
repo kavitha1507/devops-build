@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from the specified branch (can be 'dev' or 'master')
+                // Checkout code from the specified branch (dev)
                 git branch: 'dev', url: 'https://github.com/kavitha1507/devops-build.git'
             }
         }
