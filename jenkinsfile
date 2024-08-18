@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone Git Repository') {
             steps {
-                git url: 'https://github.com/kavitha1507/devops-build.git'
+                git branch: 'main', url: 'https://github.com/kavitha1507/devops-build.git'
             }
         }
         stage('Checkout') {
