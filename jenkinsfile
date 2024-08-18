@@ -1,7 +1,17 @@
 pipeline {
     agent any
 
+        environment {
+        DOCKER_CREDENTIALS_ID = 'DockerHub'
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from the specified branch (dev)
+                git branch: 'feature/docker-setup', url: 'https://github.com/kavitha1507/devops-build.git'
+            }
+        }
         stage('Build') {
             steps {
                 sh './build.sh'

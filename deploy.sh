@@ -15,7 +15,7 @@ docker push $DOCKER_IMAGE:$DOCKER_TAG
 
 # Deploy on EC2 (assuming SSH access and Docker is installed)
 EC2_USER="ec2-user"
-EC2_HOST="https://3.133.84.200/"
+EC2_HOST="https://18.223.29.90/"
 
 # SSH into EC2 and pull the image, then run the container
 ssh -i "jenkins-new.pem" $EC2_USER@$EC2_HOST << EOF
