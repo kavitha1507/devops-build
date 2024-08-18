@@ -6,9 +6,15 @@ pipeline {
     }
 
     stages {
+
+        stage('Clone Git Repository') {
+            steps {
+                git url: 'https://github.com/kavitha1507/devops-build.git'
+            }
+        }
         stage('Checkout') {
             steps {
-                // Checkout code from the specified branch (dev)
+                // Checkout code from the specified branch (feature/docker-setup)
                 git branch: 'feature/docker-setup', url: 'https://github.com/kavitha1507/devops-build.git'
             }
         }
