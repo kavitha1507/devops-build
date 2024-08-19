@@ -2,6 +2,6 @@ global:
   scrape_interval: 15s  # How often to scrape targets
 
 scrape_configs:
-  - job_name: 'react-app-1'
+  - job_name: 'react-app-metrics'
     static_configs:
-      - targets: ['react-app-1:80']  # Monitoring React app service
+      - targets: ['react-app:4000']  # Monitoring React app service
