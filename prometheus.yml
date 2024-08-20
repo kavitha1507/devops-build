@@ -3,5 +3,6 @@ global:
 
 scrape_configs:
   - job_name: 'react-app'
+    metrics_path: '/metrics'
     static_configs:
-      - targets: ['react-app:80']  # Monitoring React app service
+      - targets: ['react-app:4000']
