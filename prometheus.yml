@@ -1,8 +1,7 @@
 global:
-  scrape_interval: 15s  # How often to scrape targets
+  scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'react-app'
-    metrics_path: '/metrics'
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ['react-app:4000']
+      - targets: ['localhost:9091']
