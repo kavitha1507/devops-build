@@ -4,8 +4,8 @@
     "prom-client": "^15.1.3"
   },
   "/metrics": {
-  "scripts": {
-    "start-metrics": "node server.js"
+    "scripts": {
+      "start-metrics": "node server.js"
+    }
   }
-}
 }
